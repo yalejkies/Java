@@ -1,0 +1,98 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.BorderLayout;
+
+public class PowerCalculationGUI extends JFrame {
+
+    JTextField baseField, exponentField;
+
+    public PowerCalculationGUI() {
+        setTitle("Power Calculator");
+        setSize(320, 180);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // MAIN BACKGROUND COLOR (PINK)
+        getContentPane().setBackground(new Color(255, 182, 193)); // light pink
+
+        setLayout(new BorderLayout(10, 10));
+
+        // INPUT PANEL
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        inputPanel.setBackground(new Color(255, 182, 193));
+
+        JLabel baseLabel = new JLabel("Base:");
+        JLabel expLabel = new JLabel("Exponent:");
+
+        baseField = new JTextField();
+        exponentField = new JTextField();
+
+        inputPanel.add(baseLabel);
+        inputPanel.add(baseField);
+        inputPanel.add(expLabel);
+        inputPanel.add(exponentField);
+
+        add(inputPanel, BorderLayout.CENTER);
+
+        // BUTTON PANEL
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        buttonPanel.setBackground(new Color(255, 182, 193));
+
+        JButton calcButton = new JButton("Calculate");
+        JButton cancelButton = new JButton("Cancel");
+
+        // BUTTON COLORS
+        calcButton.setBackground(new Color(255, 105, 180)); // hot pink
+        calcButton.setForeground(Color.WHITE);
+
+        cancelButton.setBackground(new Color(255, 160, 180)); // soft pink
+        cancelButton.setForeground(Color.WHITE);
+
+        buttonPanel.add(calcButton);
+        buttonPanel.add(cancelButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        // CALCULATE ACTION
+        calcButton.addActionListener(e -> {
+            try {
+                int base = Integer.parseInt(baseField.getText());
+                int exponent = Integer.parseInt(exponentField.getText());
+
+                long result = 1;
+
+                for (int i = 0; i < exponent; i++) {
+                    result *= base;
+                }
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        base + " ^ " + exponent + " = " + result,
+                        "Result",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please enter valid numbers!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        });
+
+        // CANCEL ACTION
+        cancelButton.addActionListener(e -> {
+            baseField.setText("");
+            exponentField.setText("");
+        });
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new PowerCalculationGUI();
+    }
+}
